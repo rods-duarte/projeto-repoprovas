@@ -1,11 +1,11 @@
 import Joi from 'joi';
 import { User } from '@prisma/client';
 
-export type SignUpData = Omit<User, 'id'>;
+export type LoginData = Omit<User, 'id'>;
 
-const SignUpSchema = Joi.object<SignUpData>({
+const LoginSchema = Joi.object<LoginData>({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
 
-export default SignUpSchema;
+export default LoginSchema;

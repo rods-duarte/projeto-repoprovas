@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { unauthorizedError } from '../middlewares/errorHandlerMiddleware.js';
-import { SignUpData } from '../models/signUpSchema.js';
+import { LoginData } from '../models/loginSchema.js';
 import UserRepository from '../repositories/userRepository.js';
 
-async function create(credentials: SignUpData) {
+async function create(credentials: LoginData) {
   const userExists = await UserRepository.select(credentials.email);
 
   if (userExists) {
