@@ -25,12 +25,22 @@ describe('signup suit', () => {
     expect(response.status).toBe(422);
   });
 
-  it('given email in use fail to create user, expect 409', async () => {
+  it('given wrong password expect 401', async () => {
+    const login = UserFactory.createLogin();
+    await UserFactory.createUser(login);
+
+    const response = await supertest(app)
+      .post('/signup')
+      .send({ email: login.email, password: '123' });
+    expect(response.status).toBe(401);
+  });
+
+  it('given email in use fail to create user, expect 401', async () => {
     const login = UserFactory.createLogin('teste@email.com');
     await UserFactory.createUser(login);
 
     const secondLogin = UserFactory.createLogin('teste@email.com');
     const response = await supertest(app).post('/signup').send(secondLogin);
-    expect(response.status).toBe(409);
+    expect(response.status).toBe(401);
   });
 });
