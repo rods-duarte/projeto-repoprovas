@@ -7,7 +7,7 @@ beforeEach(async () => {
   await prisma.$executeRaw`TRUNCATE TABLE USERS`;
 });
 
-describe('signup suit', () => {
+describe('signup test suit', () => {
   it('given email & password expect create user', async () => {
     const login = UserFactory.createLogin();
     const response = await supertest(app).post('/signup').send(login);
@@ -42,6 +42,37 @@ describe('signup suit', () => {
     const secondLogin = UserFactory.createLogin('teste@email.com');
     const response = await supertest(app).post('/signup').send(secondLogin);
     expect(response.status).toBe(401);
+  });
+});
+
+describe('signin test suit', () => {
+  it('given login expect 200, return token', async () => {
+    const login = UserFactory.createLogin();
+    await UserFactory.createUser(login);
+
+    const response = await supertest(app).post('/signin').send(login);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('token');
+  });
+
+  it('given not registered account expect 401', async () => {
+    const login = UserFactory.createLogin();
+
+    const response = await supertest(app).post('/signin').send(login);
+    expect(response.status).toBe(401);
+    expect(response.body).not.toHaveProperty('token');
+  });
+
+  it('given wrong password expect 401', async () => {
+    const login = UserFactory.createLogin();
+    await UserFactory.createUser(login);
+
+    const response = await supertest(app)
+      .post('/signin')
+      .send({ email: login.email, password: '123' });
+
+    expect(response.status).toBe(401);
+    expect(response.body).not.toHaveProperty('token');
   });
 });
 
