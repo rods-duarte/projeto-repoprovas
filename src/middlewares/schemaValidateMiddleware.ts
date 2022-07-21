@@ -1,8 +1,8 @@
-import { Schema } from 'joi';
 import { Request, Response, NextFunction } from 'express';
+import { Schema } from 'joi';
 import { unprocessableEntityError } from './errorHandlerMiddleware.js';
 
-export default async function schemaValidate(schema: Schema) {
+export default function validateSchema(schema: Schema) {
   return (req: Request, res: Response, next: NextFunction) => {
     const { body } = req;
     const { error } = schema.validate(body);

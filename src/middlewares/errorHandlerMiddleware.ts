@@ -28,6 +28,7 @@ export function unprocessableEntityError(message: string) {
   return { type: 'unprocessableEntity', message };
 }
 
+// eslint-disable-next-line
 const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   const { type, message }: { type: string; message: string } = error;
   if (type) {
