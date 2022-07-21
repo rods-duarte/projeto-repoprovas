@@ -44,3 +44,7 @@ describe('signup suit', () => {
     expect(response.status).toBe(401);
   });
 });
+
+afterAll(async () => {
+  await prisma.$disconnect();
+});
