@@ -19,27 +19,27 @@ model User {
 }
 
 model Teacher {
-  id                Int                 @id @default(autoincrement())
-  name              String
-  TeacherDiscipline TeacherDiscipline[]
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  TeacherDisciplines TeacherDiscipline[]
 
   @@map("teachers")
 }
 
 model Term {
-  id         Int          @id @default(autoincrement())
-  number     Int          @unique
-  Discipline Discipline[]
+  id          Int          @id @default(autoincrement())
+  number      Int          @unique
+  disciplines Discipline[]
 
   @@map("terms")
 }
 
 model Discipline {
-  id                Int                 @id @default(autoincrement())
-  name              String              @unique
-  termId            Int
-  Term              Term?               @relation(fields: [termId], references: [id])
-  TeacherDiscipline TeacherDiscipline[]
+  id                 Int                 @id @default(autoincrement())
+  name               String              @unique
+  termId             Int
+  term               Term?               @relation(fields: [termId], references: [id])
+  teacherDisciplines TeacherDiscipline[]
 
   @@map("disciplines")
 }
@@ -48,17 +48,17 @@ model TeacherDiscipline {
   id           Int         @id @default(autoincrement())
   teacherId    Int
   disciplineId Int
-  Teacher      Teacher?    @relation(fields: [teacherId], references: [id])
-  Discipline   Discipline? @relation(fields: [disciplineId], references: [id])
-  Test         Test[]
+  teacher      Teacher?    @relation(fields: [teacherId], references: [id])
+  discipline   Discipline? @relation(fields: [disciplineId], references: [id])
+  tests        Test[]
 
   @@map("teachersDisciplines")
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  Test Test[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tests Test[]
 
   @@map("categories")
 }
@@ -68,7 +68,7 @@ model Test {
   name                String
   pdfUrl              String
   categoryId          Int
-  Category            Category?          @relation(fields: [categoryId], references: [id])
+  category            Category?          @relation(fields: [categoryId], references: [id])
   teacherDisciplineId Int
   TeacherDiscipline   TeacherDiscipline? @relation(fields: [teacherDisciplineId], references: [id])
 
