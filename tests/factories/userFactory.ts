@@ -14,6 +14,15 @@ function createLogin(email = 'teste@email.com', passwordLength = 10) {
   };
 }
 
+function createSignup(email = 'teste@email.com', passwordLength = 10) {
+  const password = faker.internet.password(passwordLength);
+  return {
+    email,
+    password,
+    confirmPassword: password,
+  };
+}
+
 async function createUser(login: Login) {
   const user = await prisma.user.create({
     data: {
@@ -37,6 +46,7 @@ async function findUser(login: Login) {
 
 const UserFactory = {
   createLogin,
+  createSignup,
   createUser,
   findUser,
 };
