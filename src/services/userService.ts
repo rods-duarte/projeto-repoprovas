@@ -2,14 +2,14 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { unauthorizedError } from '../middlewares/errorHandlerMiddleware.js';
 import { LoginData } from '../models/loginSchema.js';
+import { SignupData } from '../models/signupSchema.js';
 import UserRepository from '../repositories/userRepository.js';
-import '../config/setup.js';
 
-async function createUser(credentials: LoginData) {
+async function createUser(credentials: SignupData) {
   const userExists = await UserRepository.select(credentials.email);
 
   if (userExists) {
-    const message = 'Wrong email & password combination !'; //! FIXME
+    const message = 'Email already registered !';
     throw unauthorizedError(message);
   }
 
