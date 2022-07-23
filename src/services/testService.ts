@@ -56,8 +56,17 @@ async function createTest(data: CreateTest) {
   await testRepository.insert(insertData);
 }
 
+async function findTests(criteria: string) {
+  if (criteria === 'disciplines') {
+    return testRepository.selectTestsByDisciplines();
+  }
+
+  return null;
+}
+
 const testService = {
   createTest,
+  findTests,
 };
 
 export default testService;

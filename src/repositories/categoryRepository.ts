@@ -9,8 +9,14 @@ async function selectByName(name: string) {
   return category;
 }
 
+async function selectAll() {
+  const categories = await prisma.category.findMany();
+  return categories;
+}
+
 const categoryRepository = {
   selectByName,
+  selectAll,
 };
 
 export default categoryRepository;
