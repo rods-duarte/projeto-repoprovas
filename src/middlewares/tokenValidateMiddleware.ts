@@ -7,14 +7,14 @@ export default function validateToken(
   res: Response,
   next: NextFunction
 ) {
-  const token = req.headers?.authorization.replace('Bearer ', '').trim();
+  const token = req.headers.authorization?.replace('Bearer ', '').trim();
   if (!token) {
     const message = 'Missing token !';
     throw unauthorizedError(message);
   }
 
   try {
-    const { userId } = jwt.verify(token, process.env.JWT_KEY) as {
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET) as {
       userId: number;
     };
     res.locals.userId = userId;
