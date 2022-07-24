@@ -1,5 +1,8 @@
 import { Teacher } from '@prisma/client';
-import { notFoundError } from '../middlewares/errorHandlerMiddleware.js';
+import {
+  badRequest,
+  notFoundError,
+} from '../middlewares/errorHandlerMiddleware.js';
 import { CreateTest } from '../models/testSchema.js';
 import categoryRepository from '../repositories/categoryRepository.js';
 import teacherRepository from '../repositories/teacherRepository.js';
@@ -65,7 +68,11 @@ async function findTests(criteria: string) {
     return testRepository.selectTestsByTeachers();
   }
 
-  return null;
+  let message: string;
+  if (criteria === '') message = 'Missing groupBy query !';
+  else message = 'groupBy should be disciplines or teachers !';
+
+  throw badRequest(message);
 }
 
 const testService = {
