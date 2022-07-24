@@ -89,6 +89,17 @@ describe('post /test test suit', () => {
     const testOnDb = await testFactory.findTest(newTest);
     expect(testOnDb).toBe(null);
   });
+
+  it('missing valid token should return 401', async () => {
+    const token = 'invalidtoken';
+    const newTest = await testFactory.createTestData();
+
+    const response = await supertest(app)
+      .post('/tests')
+      .send(newTest)
+      .set('Authorization', token);
+    expect(response.status).toBe(401);
+  });
 });
 
 describe('get /tests test suit', () => {
@@ -100,6 +111,16 @@ describe('get /tests test suit', () => {
       .set('Authorization', token);
     expect(response.status).toBe(200);
     expect(response.body.tests.discipline).not.toBe(null);
+  });
+
+  it('missing valid token should return 401', async () => {
+    const token = 'invalidtoken';
+    await testFactory.createTestData();
+    const response = await supertest(app)
+      .get('/tests?groupBy=disciplines')
+      .set('Authorization', token);
+    expect(response.status).toBe(401);
+    expect(response.body.tests).toBe(null);
   });
 });
 
