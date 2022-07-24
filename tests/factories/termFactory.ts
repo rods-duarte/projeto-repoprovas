@@ -4,7 +4,7 @@ import prisma from '../../src/config/database.js';
 async function createTerm() {
   const term = await prisma.term.create({
     data: {
-      number: Number(faker.random.numeric()),
+      number: Number(faker.random.numeric(5)),
     },
   });
   return term;

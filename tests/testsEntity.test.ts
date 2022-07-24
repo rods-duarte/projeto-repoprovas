@@ -13,7 +13,7 @@ beforeEach(async () => {
   await prisma.$executeRaw`TRUNCATE TABLE TERMS CASCADE`;
 });
 
-describe('post /test suit', () => {
+describe('post /test test suit', () => {
   it('should create new test, expect 201', async () => {
     const newTest = await testFactory.createTestData();
 
@@ -66,6 +66,15 @@ describe('post /test suit', () => {
 
     const testOnDb = await testFactory.findTest(newTest);
     expect(testOnDb).toBe(null);
+  });
+});
+
+describe('get /tests test suit', () => {
+  it('given groupBy = discipline should return ordened by discipline, expect 200', async () => {
+    await testFactory.createTestData();
+    const response = await supertest(app).get('/tests?groupBy=disciplines');
+    expect(response.status).toBe(200);
+    expect(response.body.tests.discipline).not.toBe(null);
   });
 });
 

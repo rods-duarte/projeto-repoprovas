@@ -3,7 +3,7 @@ import { Discipline, Teacher } from '@prisma/client';
 import prisma from '../../src/config/database.js';
 
 async function createTeacher() {
-  const name = faker.name.findName();
+  const name = faker.random.alpha(10);
   const teacher = await prisma.teacher.create({
     data: {
       name,
@@ -12,18 +12,21 @@ async function createTeacher() {
   return teacher;
 }
 
-async function createTeacherDiscipline(teacher: Teacher, discipline: Discipline) {
+async function createTeacherDiscipline(
+  teacher: Teacher,
+  discipline: Discipline
+) {
   await prisma.teacherDiscipline.create({
     data: {
       disciplineId: discipline.id,
-      teacherId: teacher.id
-    }
-  })
+      teacherId: teacher.id,
+    },
+  });
 }
 
 const teacherFactory = {
   createTeacher,
-  createTeacherDiscipline
+  createTeacherDiscipline,
 };
 
 export default teacherFactory;
