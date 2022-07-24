@@ -2,9 +2,10 @@ import prisma from '../config/database.js';
 import { LoginData } from '../models/loginSchema.js';
 
 async function insert(data: LoginData) {
-  await prisma.user.create({
+  const newUser = await prisma.user.create({
     data,
   });
+  return newUser;
 }
 
 async function select(email: string) {
