@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import prisma from '../../src/config/database.js';
 
 interface Login {
@@ -23,6 +24,13 @@ function createSignup(email = 'teste@email.com', passwordLength = 10) {
   };
 }
 
+function generateToken() {
+  const token = jwt.sign({}, process.env.JWT_SECRET, {
+    expiresIn: 24 * 60 * 60, // one day in sec
+  });
+  return `Bearer ${token}`;
+}
+
 async function createUser(login: Login) {
   const user = await prisma.user.create({
     data: {
@@ -30,8 +38,9 @@ async function createUser(login: Login) {
       password: bcrypt.hashSync(login.password, 10),
     },
   });
+  const token = generateToken();
 
-  return { ...user, plainPassword: login.password };
+  return { ...user, plainPassword: login.password, token };
 }
 
 async function findUser(login: Login) {
@@ -49,6 +58,7 @@ const UserFactory = {
   createSignup,
   createUser,
   findUser,
+  generateToken,
 };
 
 export default UserFactory;
