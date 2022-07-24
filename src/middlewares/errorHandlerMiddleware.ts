@@ -1,12 +1,17 @@
 import { ErrorRequestHandler } from 'express';
 
 const ErrorToStatusCode = {
+  badRequest: 400,
   unauthorized: 401,
   forbidden: 403,
   notFound: 404,
   conflict: 409,
   unprocessableEntity: 422,
 };
+
+export function badRequest(message: string) {
+  return { type: 'badRequest', message };
+}
 
 export function unauthorizedError(message: string) {
   return { type: 'unauthorized', message };
