@@ -45,7 +45,9 @@ async function getUserOrFail(credentials: LoginData) {
 
 async function login(credentials: LoginData) {
   const user = await getUserOrFail(credentials);
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: 24 * 60 * 60, // one day in sec
+  });
   return token;
 }
 
