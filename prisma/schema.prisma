@@ -20,7 +20,7 @@ model User {
 
 model Teacher {
   id                 Int                 @id @default(autoincrement())
-  name               String
+  name               String              @unique
   TeacherDisciplines TeacherDiscipline[]
 
   @@map("teachers")

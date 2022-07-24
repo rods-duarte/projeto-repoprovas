@@ -1,17 +1,16 @@
-import bcrypt from 'bcrypt';
 import prisma from '../src/config/database.js';
 
+async function clearDb() {
+  await prisma.$executeRaw`TRUNCATE TABLE TESTS`;
+  await prisma.$executeRaw`TRUNCATE TABLE CATEGORIES CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "teachersDisciplines" CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE TEACHERS CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE DISCIPLINES CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE TERMS CASCADE`;
+}
+
 async function main() {
-  await prisma.user.upsert({
-    create: {
-      email: 'admin@admin.com',
-      password: bcrypt.hashSync('123', 10),
-    },
-    update: {},
-    where: {
-      email: 'admin@admin.com',
-    },
-  });
+  if (process.env.MODE === 'test') clearDb();
 }
 
 main()
