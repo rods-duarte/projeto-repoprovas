@@ -61,6 +61,10 @@ async function findTests(criteria: string) {
     return testRepository.selectTestsByDisciplines();
   }
 
+  if (criteria === 'teachers') {
+    return testRepository.selectTestsByTeachers();
+  }
+
   return null;
 }
 

@@ -41,6 +41,26 @@ async function selectTestsByDisciplines() {
   return tests;
 }
 
+async function selectTestsByTeachers() {
+  const tests = await prisma.teacherDiscipline.findMany({
+    include: {
+      discipline: {
+        include: {
+          term: {},
+        },
+      },
+      teacher: {},
+      tests: {
+        include: {
+          category: {},
+        },
+      },
+    },
+  });
+
+  return tests;
+}
+
 async function insert(data: InsertTestData) {
   await prisma.test.create({
     data,
@@ -50,6 +70,7 @@ async function insert(data: InsertTestData) {
 const testRepository = {
   insert,
   selectTestsByDisciplines,
+  selectTestsByTeachers,
 };
 
 export default testRepository;
