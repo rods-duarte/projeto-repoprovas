@@ -5,8 +5,6 @@
 </p>
 
 ##  :clipboard: Description
-um sistema de compartilhamento de provas entre estudantes!
-
 This is an API for sharing tests between students. In RepoProvas, anyone can search for old tests of their subjects and teachers or send old tests to help freshmen
 
 ## :computer:	 Technologies
